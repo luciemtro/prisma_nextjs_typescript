@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Next.js + Prisma + NextAuth Template
 
-## Getting Started
+Ce template est une base Next.js avec **NextAuth.js** pour l'authentification et **Prisma** pour la gestion de la base de données. Il inclut déjà l'inscription et la connexion avec un système de session.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 📦 **Dépendances installées**
+
+### ✅ **Dépendances principales**
+- `next@15.1.7`
+- `react@19.0.0`
+- `react-dom@19.0.0`
+- `next-auth@4.24.11`
+- `@next-auth/prisma-adapter@1.0.7`
+- `@prisma/client@6.4.1`
+- `@tanstack/react-query@5.66.9`
+- `bcryptjs@3.0.2`
+- `react-icons@5.5.0`
+- `zod@3.24.2`
+
+### 🔧 **Dépendances de développement**
+- `eslint@9`
+- `eslint-config-next@15.1.7`
+- `postcss@8`
+- `tailwindcss@3.4.1`
+- `prisma@6.4.1`
+- `typescript@5`
+- `@types/node@20`
+- `@types/react@19`
+- `@types/react-dom@19`
+
+---
+
+## 🔐 **NextAuth.js (Connexion & Inscription déjà configurés)**
+
+Ce template intègre **NextAuth.js** avec un **Credential Provider** et **Prisma Adapter** pour la gestion des utilisateurs.  
+L’authentification inclut :
+- **Inscription (`register`)**
+- **Connexion (`login`)**
+- **Sessions persistantes (JWT)**
+- **Middleware Next.js pour protéger certaines routes**
+
+---
+
+## 🛠 **Variables d’environnement (`.env`)**
+
+Ce template nécessite ces variables d’environnement :  
+```ini
+DATABASE_URL="mysql://root:root@localhost:3306/todo_list"
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="t8eZVHnU8jFBjSWpy1aGCKuVDddI2AGFVeD1zPOJNHE="
 ```
+## 🔧 Configuration de la base de données
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Remplace **`todo_list`** par le nom de votre base de données et **`mysql`** par votre système de gestion de base de données si nécessaire.  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Si vous modifiez le type de base de données, assurez-vous également de mettre à jour la configuration dans **`prisma/schema.prisma`**.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📂 Modèles Prisma
 
-To learn more about Next.js, take a look at the following resources:
+Le fichier **`prisma/schema.prisma`** définit les modèles de base pour l'application.  
+Par défaut, ce template inclut **les modèles nécessaires à l'authentification avec NextAuth.js**, ainsi qu'un modèle **exemple** (`Task`) qui peut être modifié selon vos besoins.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🛠 **Modèles disponibles**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### 🔹 **`User`** (Utilisateur)
+Ce modèle représente un utilisateur et inclut :
+- Un **id** unique (`UUID`).
+- Un **email** unique et un **mot de passe**.
+- Un **nom** et une **date de création**.
+- **Relations** avec les sessions, les comptes tiers (OAuth) et les tâches (`Task`, qui peut être modifié).
 
-## Deploy on Vercel
+#### 🔹 **`Session`** (Session utilisateur)
+Gère les sessions actives avec NextAuth.js :
+- Utilise un **sessionToken** unique.
+- Contient une **date d’expiration**.
+- Relie la session à un **utilisateur** (`User`).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### 🔹 **`Account en commentaire si vous voulez l'ajouter`** (Comptes OAuth)
+Stocke les informations des connexions avec des services externes (`Google, GitHub, etc.`) :
+- Type et fournisseur (`provider`).
+- Jetons d'accès et d'actualisation (`access_token`, `refresh_token`).
+- Expiration du jeton et d'autres informations OAuth.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### 🔹 **`Task`** (Exemple de modèle personnalisé)
+Le modèle **`Task`** est fourni comme **exemple** et peut être modifié ou remplacé selon vos besoins :
+```prisma
+model Task {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+---
+
+## 📂 **Structure du projet**
+- **lib/auth.ts → Configuration de NextAuth.js**
+- **lib/prisma.ts → Client Prisma**
+- **api/auth/[...nextauth]/route.ts → API NextAuth**
+- **components/SessionProvider.tsx → Gestion du contexte NextAuth**
+- **app/login/page.tsx → Formulaire de connexion**
+- **app/register/page.tsx → Formulaire d'inscription**
+
+---
+
