@@ -95,7 +95,7 @@ model Task {
   user      User     @relation(fields: [userId], references: [id])
   userId    String
 }
-
+```
 ---
 
 ## 📂 **Structure du projet**
