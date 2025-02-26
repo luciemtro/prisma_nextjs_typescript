@@ -48,8 +48,21 @@ Ce template nécessite ces variables d’environnement :
 ```ini
 DATABASE_URL="mysql://root:root@localhost:3306/todo_list"
 NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="t8eZVHnU8jFBjSWpy1aGCKuVDddI2AGFVeD1zPOJNHE="
+NEXTAUTH_SECRET="your-client-secret"
 ```
+## 🔐 **Générer un `NEXTAUTH_SECRET` sécurisé**
+
+`NEXTAUTH_SECRET` est une clé secrète utilisée par **NextAuth.js** pour sécuriser l'authentification et la gestion des sessions.  
+Voici comment générer une clé sécurisée avec **Node.js**.
+
+## ✅ **1. Générer une clé avec Node.js**
+Dans votre terminal, exécutez la commande suivante :
+
+```sh
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+```
+---
+
 ## 🔧 Configuration de la base de données
 
 Remplace **`todo_list`** par le nom de votre base de données et **`mysql`** par votre système de gestion de base de données si nécessaire.  
