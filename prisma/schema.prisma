@@ -21,8 +21,8 @@ model User {
   createdAt DateTime @default(now())
   tasks     Task[]
   sessions  Session[]
-  accounts  Account[]
-}
+  // accounts  Account[]  // Désactivé pour l’instant, à réactiver si OAuth est ajouté.
+  }
 
 model Task {
   id        String   @id @default(uuid())
@@ -41,18 +41,23 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Account {
-  id                String  @id @default(uuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String  @unique
-  refresh_token     String? 
-  access_token      String? 
-  expires_at        Int?    
-  token_type        String? 
-  scope             String? 
-  id_token          String? 
-  session_state     String? 
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
+// model Account {
+//   id                String  @id @default(uuid())
+//   userId            String
+//   type              String
+//   provider          String
+//   providerAccountId String  @unique
+//   refresh_token     String? 
+//   access_token      String? 
+//   expires_at        Int?    
+//   token_type        String? 
+//   scope             String? 
+//   id_token          String? 
+//   session_state     String? 
+//   user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+// }
+
+// ⚠️ Ce modèle est désactivé pour l’instant. 
+// Supprimez les commentaires et exécutez `npx prisma migrate dev --name enable-oauth` 
+// si vous voulez ajouter l’authentification avec GitHub, Google, etc.
+
