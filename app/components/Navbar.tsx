@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { signOut } from "next-auth/react";
+import SignOutButton from "@/components/SignOutButton";
 
 export default async function Navbar() {
   const session = await getServerSession(authOptions);
@@ -12,12 +12,7 @@ export default async function Navbar() {
         {session ? (
           <div className="flex items-center gap-4">
             <p className="text-white">Bienvenue, {session.user?.name}</p>
-            <button
-              onClick={() => signOut()}
-              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-            >
-              Déconnexion
-            </button>
+            <SignOutButton />
           </div>
         ) : (
           <a href="/login" className="text-blue-400">
