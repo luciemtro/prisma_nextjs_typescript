@@ -65,7 +65,9 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 
 ## 🔧 Configuration de la base de données
 
-Remplace **`todo_list`** par le nom de votre base de données et **`mysql`** par votre système de gestion de base de données si nécessaire.  
+Remplace **`todo_list`** par le nom de votre base de données et **`mysql`** par votre système de gestion de base de données si nécessaire. 
+
+Remplace le **`port`** si nécessaire.
 
 Si vous modifiez le type de base de données, assurez-vous également de mettre à jour la configuration dans **`prisma/schema.prisma`**.
 
