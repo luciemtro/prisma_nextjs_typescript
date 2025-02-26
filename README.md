@@ -84,6 +84,7 @@ Par défaut, ce template inclut **les modèles nécessaires à l'authentificatio
 Ce modèle représente un utilisateur et inclut :
 - Un **id** unique (`UUID`).
 - Un **email** unique et un **mot de passe**.
+- Un champ **`isAdmin`** défini sur `false` par défaut, pouvant être mis à `true` directement dans la base de données si un rôle administrateur est nécessaire.
 - Un **nom** et une **date de création**.
 - **Relations** avec les sessions, les comptes tiers (OAuth) et les tâches (`Task`, qui peut être modifié).
 
